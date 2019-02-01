@@ -1,12 +1,21 @@
 import { login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { UserManager } from 'oidc-client'
 
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    roles: []
+    roles: [],
+    mgr: new UserManager({
+      authority: 'https://localhost:5001', // ID_SVR
+      client_id: 'a371885939cb4d1aa24640e8245807e8',
+      redirect_uri: `http://localhost:9528/#/member/callback`, // 'https://localhost:5007/callback.html', // 本项目地址
+      response_type: 'id_token token',
+      scope: 'openid profile api1',
+      post_logout_redirect_uri: `http://localhost:9528/#/member/about` // 'https://localhost:5007/index.html' // 本项目地址
+    })
   },
 
   mutations: {

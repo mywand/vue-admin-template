@@ -6,15 +6,15 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    avatar: '',
+    avatar: '/assets/member/avatar/avatar-default.ico',
     roles: [],
     mgr: new UserManager({
       authority: 'https://localhost:5001', // ID_SVR
       client_id: 'a371885939cb4d1aa24640e8245807e8',
-      redirect_uri: `http://localhost:9528/#/member/callback`, // 'https://localhost:5007/callback.html', // 本项目地址
+      redirect_uri: `http://localhost:9528/member/callback?`,
       response_type: 'id_token token',
       scope: 'openid profile api1',
-      post_logout_redirect_uri: `http://localhost:9528/#/member/about` // 'https://localhost:5007/index.html' // 本项目地址
+      post_logout_redirect_uri: `http://localhost:9528/member/about`
     })
   },
 
@@ -69,21 +69,35 @@ const user = {
     },
 
     // 获取用户信息
-    GetOidcInfo({ commit, state }) {
+    GetInfoOidc({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          const data = response.data
-          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', data.roles)
-          } else {
-            reject('getInfo: roles must be a non-null array !')
-          }
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          resolve(response)
+        state.mgr.getUser().then((user) => {
+          debugger
+          console.log(user)
+          // "Authorization", "Bearer " + user.access_token
+          commit('SET_TOKEN', 'Bearer ' + user.access_token)
+          const profile = user.profile
+          commit('SET_NAME', profile.name)
+          commit('SET_AVATAR', profile.picture)
+          // const data = user.profile
+          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+          //   commit('SET_ROLES', data.roles)
+          // } else {
+          //   reject('getInfo: roles must be a non-null array !')
+          // }
         }).catch(error => {
           reject(error)
         })
+      })
+    },
+
+    // 登出
+    LogOutOidc({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        removeToken()
+        state.mgr.signoutRedirect()
       })
     },
 

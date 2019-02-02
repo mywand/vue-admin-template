@@ -1,11 +1,13 @@
 <template>
-  <div>about</div>
+  <div>{{ msg }}</div>
 </template>
 <script>
-const test = {
-}
-
 export default {
-  test
+  name: 'About',
+  data() {
+    return {
+      msg: 'About page'
+    }
+  }
 }
 </script>

@@ -21,18 +21,14 @@ router.beforeEach((to, from, next) => {
           next({ path: '/' })
           NProgress.done()
         } else {
-          next()
-          // debugger
-          // store.dispatch('GetInfoOidc').then(res => {
-          //   debugger
-          //   next()
-          // }).catch((err) => {
-          //   debugger
-          //   store.dispatch('LogOutOidc').then(() => {
-          //     Message.error(err || 'Verification failed, please login again')
-          //     next({ path: '/' })
-          //   })
-          // })
+          store.dispatch('GetInfoOidc').then(res => {
+            next()
+          }).catch((err) => {
+            store.dispatch('LogOutOidc').then(() => {
+              Message.error(err || 'Verification failed, please login again')
+              next({ path: '/' })
+            })
+          })
         }
       }
     }).catch((err) => {

@@ -6,7 +6,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    avatar: '/assets/member/avatar/avatar-default.ico',
+    avatar: '',
     roles: [],
     mgr: new UserManager({
       authority: 'https://localhost:5001', // ID_SVR
@@ -70,24 +70,21 @@ const user = {
 
     // 获取用户信息
     GetInfoOidc({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        state.mgr.getUser().then((user) => {
-          debugger
-          console.log(user)
-          // "Authorization", "Bearer " + user.access_token
-          commit('SET_TOKEN', 'Bearer ' + user.access_token)
-          const profile = user.profile
-          commit('SET_NAME', profile.name)
-          commit('SET_AVATAR', profile.picture)
-          // const data = user.profile
-          // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-          //   commit('SET_ROLES', data.roles)
-          // } else {
-          //   reject('getInfo: roles must be a non-null array !')
-          // }
-        }).catch(error => {
-          reject(error)
-        })
+      state.mgr.getUser().then((user) => {
+        console.log(user)
+        // "Authorization", "Bearer " + user.access_token
+        commit('SET_TOKEN', 'Bearer ' + user.access_token)
+        const profile = user.profile
+        commit('SET_NAME', profile.name)
+        commit('SET_AVATAR', require(`@/assets/${profile.picture}`))
+        // const data = user.profile
+        // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+        //   commit('SET_ROLES', data.roles)
+        // } else {
+        //   reject('getInfo: roles must be a non-null array !')
+        // }
+      }).catch(error => {
+        console.error(error)
       })
     },
 

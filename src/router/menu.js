@@ -41,14 +41,14 @@ class Menu extends nav {
 }
 
 const sitemaps = [
-  new Menu('404', '/404', '', () => import('@/views/404'), true),
+  new Menu('404', '/404', undefined, () => import('@/views/404'), true),
   new Menu('首页', '/', 'nested', resolve => require(['@/views/layout/Layout'], resolve), '/dashboard', false).addChildren(
-    new Menu('菜单1', 'dashboard', 'nested', () => import('@/views/dashboard/index'), null, false)
+    new Menu('菜单1', 'dashboard', 'nested', () => import('@/views/dashboard/index'), undefined, false)
   ),
   new Menu('首页', '/example', 'example', () => Layout, '/example/table', false).addChildren(
-    new Menu('菜单1', 'table', 'table', () => import('@/views/table/index'), null, false)
+    new Menu('菜单1', 'table', 'table', () => import('@/views/table/index'), undefined, false)
   ),
-  new Menu('*', '*', any, any, '/404', true)
+  new Menu('*', '*', undefined, undefined, '/404', true)
 ]
 
 export default sitemaps

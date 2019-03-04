@@ -8,8 +8,8 @@ const user = {
     name: '',
     avatar: '',
     roles: [],
-    mgr: new UserManager({
-      authority: 'https://localhost:5001', // ID_SVR
+    mgr: new UserManager({ // TODO 从配置文件中获取值
+      authority: 'http://localhost:5000', // ID_SVR
       client_id: 'a371885939cb4d1aa24640e8245807e8',
       redirect_uri: `http://localhost:9528/member/callback?`,
       response_type: 'id_token token',

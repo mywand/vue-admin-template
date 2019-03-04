@@ -9,12 +9,13 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import '@/styles/index.scss' // global css
 
 import App from './App'
-import router from './router'
+// import router from './router'
+import router from './router/router'
 import store from './store'
 
 import '@/icons' // icon
-// import '@/permission' // permission control
-import '@/permission.1' // permission control
+import '@/permission' // permission control
+// import '@/permission.1' // permission control
 
 Vue.use(ElementUI, { locale })
 

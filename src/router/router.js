@@ -6,7 +6,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-import { myrouters } from './menu'
+import { sitemaps } from './menu'
 // import { myrouters } from './menu.1'
 /* eslint-disable */
 
@@ -19,5 +19,5 @@ export default new Router({
   beforeEach: (to, from, next) => {
     console.log('to:' + to + 'from:' + from + 'next:' + next)
   },
-  routes: myrouters
+  routes: sitemaps
 })
